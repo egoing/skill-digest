@@ -18,7 +18,26 @@ Every `##` heading is prefixed with `◆` so a digest block is visually distingu
 
 ## Installation
 
-`skill-digest` is a plain Agent Skills package — clone it into whichever directory your host agent scans for skills.
+### Recommended: `npx skills` (host-neutral)
+
+Use the [`skills`](https://www.npmjs.com/package/skills) CLI by Vercel Labs — it auto-detects your agent's skills directory and installs there:
+
+```bash
+npx skills add egoing/skill-digest
+```
+
+Target a specific agent with `-a`:
+
+```bash
+npx skills add egoing/skill-digest -a claude-code
+npx skills add egoing/skill-digest -a opencode
+npx skills add egoing/skill-digest -a codex
+# See `npx skills --help` for the full agent list
+```
+
+### Alternative: direct git clone
+
+`skill-digest` is a plain Agent Skills package — the repository root is the skill directory, so you can also clone it into whichever directory your host agent scans for skills.
 
 **Claude Code:**
 
@@ -27,7 +46,7 @@ git clone https://github.com/egoing/skill-digest.git \
   ~/.claude/skills/skill-digest
 ```
 
-**skills.sh** (or any other host): consult your runtime's docs for the skills directory, then clone into it. The repository's root is the skill directory — no build step, no manifest conversion.
+For other hosts, consult your runtime's docs for the skills directory and clone into it. No build step, no manifest conversion.
 
 ## Usage
 
