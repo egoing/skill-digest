@@ -1,8 +1,8 @@
 # skill-digest
 
-> Analyze any Claude Code / Claude Agent skill and render it as a standardized, cognitive-load-optimized digest.
+> Analyze any skill written to the [Agent Skills](https://code.claude.com/docs/en/skills) format and render it as a standardized, cognitive-load-optimized digest.
 
-Point it at a skill name, a local path, or a GitHub URL — it reads the `SKILL.md`, classifies the skill, extracts only the truly load-bearing parts, and prints a compact digest you can absorb in under a minute.
+Works in any Agent Skills-compatible runtime — [Claude Code](https://claude.com/claude-code), [skills.sh](https://skills.sh), or any other host that reads the `SKILL.md` format. Point it at a skill name, a local path, or a GitHub URL — it reads the `SKILL.md`, classifies the skill, extracts only the truly load-bearing parts, and prints a compact digest you can absorb in under a minute.
 
 ## Why
 
@@ -18,30 +18,34 @@ Every `##` heading is prefixed with `◆` so a digest block is visually distingu
 
 ## Installation
 
-Clone into your Claude Code skills directory:
+`skill-digest` is a plain Agent Skills package — clone it into whichever directory your host agent scans for skills.
+
+**Claude Code:**
 
 ```bash
 git clone https://github.com/egoing/skill-digest.git \
   ~/.claude/skills/skill-digest
 ```
 
-Claude Code auto-loads skills under `~/.claude/skills/`. No other setup required.
+**skills.sh** (or any other host): consult your runtime's docs for the skills directory, then clone into it. The repository's root is the skill directory — no build step, no manifest conversion.
 
 ## Usage
 
-```
-/skill-digest <target>
-```
+How you invoke a skill depends on your host. Common patterns:
+
+- Slash command: `/skill-digest <target>` (Claude Code)
+- Natural language: `run skill-digest on <target>`
+- Programmatic: invoke via your host's skill-invocation API
 
 ### Input forms
 
 | Form | Example |
 |------|---------|
-| Local skill name | `/skill-digest recap` |
-| Local path | `/skill-digest ~/.claude/skills/foo/SKILL.md` |
-| GitHub full URL | `/skill-digest https://github.com/user/repo/blob/main/SKILL.md` |
-| GitHub short form | `/skill-digest user/repo` |
-| GitHub collection | `/skill-digest user/repo` (multiple `SKILL.md` → collection digest) |
+| Local skill name | `skill-digest recap` |
+| Local path | `skill-digest <skills-dir>/foo/SKILL.md` |
+| GitHub full URL | `skill-digest https://github.com/user/repo/blob/main/SKILL.md` |
+| GitHub short form | `skill-digest user/repo` |
+| GitHub collection | `skill-digest user/repo` (multiple `SKILL.md` → collection digest) |
 
 ### Follow-up actions
 
@@ -58,13 +62,13 @@ After the first digest you'll see `→ [1] Learn more`. Picking `[1]` expands to
 - **Documented-only, no inference.** `Watch Out` and `Tips` include only hazards or shortcuts the skill's own docs explicitly name. An empty section is better than an invented one — LLMs cannot reliably infer real hazards from reading a workflow, and fabricated warnings erode user trust.
 - **User perspective, not agent perspective.** Internal execution rules such as "sub-agent must not do X" never appear in the digest — they are invisible to the user and belong in the skill's source.
 - **Progressive disclosure.** The first view is deliberately narrow (five blocks + one menu item). Depth is one click away.
+- **Host-neutral.** No assumption about Claude Code specifically; any Agent Skills runtime that supplies Read / Glob / Grep / WebFetch can run it.
 - **Localization.** If the user's language is not English, headings translate automatically while the `◆` prefix stays language-independent.
 
 ## Requirements
 
-- Claude Code (skills feature enabled)
-- Read / Glob / Grep tools
-- `WebFetch` for GitHub URL inputs
+- A runtime implementing the [Agent Skills spec](https://code.claude.com/docs/en/skills)
+- Tools: `Read`, `Glob`, `Grep`, `WebFetch` (for GitHub URL inputs)
 
 ## License
 

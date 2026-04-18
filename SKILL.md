@@ -34,8 +34,8 @@ Resolve the argument to a SKILL.md before analysis. Support all of the following
 
 | Input form | Example | Resolution |
 |------------|---------|------------|
-| Local skill name | `is`, `skill-digest` | `~/.claude/skills/{name}/SKILL.md` |
-| Local path | `~/.claude/skills/is/SKILL.md` | Read directly |
+| Local skill name | `is`, `skill-digest` | Look up `{skills-dir}/{name}/SKILL.md` where `{skills-dir}` is the host's skills directory (e.g. `~/.claude/skills/` on Claude Code) |
+| Local path | `<skills-dir>/is/SKILL.md` | Read directly |
 | GitHub full URL | `https://github.com/user/repo/blob/main/skills/foo/SKILL.md` | Convert to raw URL and fetch |
 | GitHub short form | `user/repo` or `user/repo/path/to/skill` | Fetch from `https://raw.githubusercontent.com/user/repo/main/{path}/SKILL.md` |
 | GitHub org/collection | `vercel-labs/skills` | Fetch index, find all SKILL.md files |
@@ -369,7 +369,7 @@ Then show compact menu.
 
 Always available (not conditional). Steps:
 
-1. **List installed skills** — enumerate every skill name under `~/.claude/skills/`.
+1. **List installed skills** — enumerate every skill name under the host's skills directory (e.g. `~/.claude/skills/` on Claude Code).
 2. **Sort by priority:**
    - **Tier 1 (Related):** skills named in the current digest's `## ◆ Related` section
    - **Tier 2 (Similar):** skills sharing a name prefix (e.g. `gstack-*`), same Type·Complexity, or overlapping domain keywords (issue/deploy/QA/etc.)
@@ -457,7 +457,7 @@ Then show compact menu.
 ## Troubleshooting
 
 **Skill not found (local)**
-Tell user the exact path searched (`~/.claude/skills/{name}/SKILL.md`) and list 3–5 skills that do exist nearby.
+Tell the user the exact path searched (e.g. `~/.claude/skills/{name}/SKILL.md` on Claude Code, or whichever skills directory the host uses) and list 3–5 skills that do exist nearby.
 
 **GitHub fetch fails**
 Report the URL attempted. Suggest trying the raw URL directly or checking repo visibility.
